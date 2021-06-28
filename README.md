@@ -1,6 +1,6 @@
 This repository contains the implementation for: [Differentially Private GAN for Time Series](https://www.google.com).
 
-##Abstract
+## Abstract
 Generative Adversarial Networks (GANs) are a modern solution aiming to encourage public sharing of data, even if the data contains inherently private information, by generating synthetic data that looks like, but is not equal to, the data the GAN was trained on. However, GANs are prone to remembering samples from the training data, 
 therefore additional care is needed to guarantee privacy. 
 Differentially Private (DP) GANs offer a solution to this problem by protecting user privacy through a mathematical guarantee, achieved
