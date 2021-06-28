@@ -1,0 +1,7 @@
+services:
+  dp-cgan:
+    build: .
+    stdin_open: true
+    volumes:
+      - ../../dp-merf/:/main/
+      - ../../resources/:/resources/

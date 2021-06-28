@@ -1,0 +1,10 @@
+matplotlib
+autodp
+scikit-learn
+xgboost
+certifi==2020.12.5
+wincertstore==0.2
+googledrivedownloader
+requests
+kaggle==1.5.12
+pandas==1.2.4

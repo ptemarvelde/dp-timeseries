@@ -1,0 +1,6 @@
+services:
+  main:
+    build: .
+    volumes:
+      - ../../eval/:/main/
+      - ../../resources/:/resources/

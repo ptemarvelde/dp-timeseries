@@ -1,0 +1,6 @@
+services:
+  main:
+    build: .
+    volumes:
+      - ../../GS-WGAN-main/:/main/
+      - ../../resources/:/resources/
