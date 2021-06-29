@@ -18,9 +18,20 @@ timeseries through promising experimental results.
 gradient-sanitized approach for learning differentially
 private generators,” 2021.
 
+## General info
+This repo contains code from [GS-WGAN](https://arxiv.org/pdf/2006.08265.pdf), and [DP-CGAN](https://arxiv.org/pdf/2001.09700.pdf) <br>
+
+### GS-WGAN
+Implementation taken from [the author's implemenation](https://github.com/DingfanChen/GS-WGAN) with minor changes to the model to accept images with different sizes than 28x28 pixels, and added support for PTBand MIT-BIH datasets, both available on [kaggle](kaggle.com/shayanfazeli/heartbeat). 
+
+### DP-CGAN
+Code taken from [DP-MERF](https://arxiv.org/abs/2002.11603), which is the same implementation used in the GS-WGAN evaluation. [(link to git repo)](https://github.com/frhrdr/dp-merf)
+
+### Evaluator
+Contains a script that can compute Inception Score, Frechet Inception Distance and downstream classifier accuracy for a given GS-WGAN generator (`.pth` file) or a numpy archive containing generated (Fashion-)MNIST samples
+
 ## Training
-The root folders in this repo point to the two GAN model implementation compared for this research and the evaluation code. <br>
-Each folder has a corresponding folder in the docker root folder, containing a `Dockerfile` and `docker-compose.yml` which can be used to run the training and evaluations. <br>
+To train GAN training either follow instructions in the corresponding README's in the model subfolders, or use the docker configurations supplied in [docker](docker/)
 During training intermediate samples and generators are saved.
 
 They can be run using docker as follows:
@@ -30,16 +41,8 @@ They can be run using docker as follows:
 
 This starts a docker container which automatically install all dependencies for a run on CPU. <br>
 
-For running without Docker it is easiest to create a new conda environment and install dependencies for the model you want to run. (can be found in `docker/model/requirements.txt`)
+For running without Docker it is easiest to create a new conda environment and install dependencies for the model you want to run. (can be found in `docker/[GS-WGAN|DP-CGAN|eval]/requirements.txt`) Or in the respective model's README.
 <br> ! 
-### GS-WGAN
-Instructions for running GS-WGAN are on the repo containing the original implementation: https://github.com/DingfanChen/GS-WGAN <br>
-
-
-### DP-CGAN
-The implementation of DP-CGAN (from https://github.com/frhrdr/dp-merf) is a bit less nice to use. <br>
-Changes to the configuration need to be made in `dp-merf/dpcgan/dp_cgan_reference_im.py` after that it can be run using Docker or:
->python dp_cgan_reference_im.py
 
 ## Evaluating
 During a training run intermediate samples (for DP-CGAN) or generators (for GS-WGAN) will be saved.<br>
@@ -47,11 +50,12 @@ Once training is finished the evaluator can be run via docker or via commandline
 > python evaluator.py --generator_dir ../../resources/gswgan/fashionmnist/gen --gen_data_size 10000 --dataset fashionmnist --save_location ../../resources/gswgan/fashion/ --num_batches 10
 
 This computes Inception Score, Frechet Inception Distance and downstream classifier accuracy for all generator or sample files in the `--generator_dir`
-* Refer to `eval/evaluator/evaluator.py` for the complete list of arguments.
+* Refer to `eval/evaluator/evaluator.py`, or run `python evaluator.py -h` for the complete list of arguments.
 
 ### Inception Score
 For the IS you first need to train a classifier (seperate for MNIST & FashionMNIST, change in the `MLP_for_Inception.py` file) by running:
 > python eval/evaluator/MLP_for_Inception.py
+This trains a classifier (depending on the selected dataset) with test set accuracy of 98% or 91% accuracy, respectively for MNIST and Fashion-MNIST.
 
 
 
@@ -59,6 +63,7 @@ For the IS you first need to train a classifier (seperate for MNIST & FashionMNI
 This GS-WGAN implementation supports two new datasets: PTB & MIT-BIH.
 For PTB & MIT-BIH set Kaggle keys in the environment:
 >export KAGGLE_USERNAME=username <br>
->export KAGGLE_KEY=key
+>export KAGGLE_KEY=key <br>
+The datasets will then be automatically downloaded upon training start.
 
-or download the datasets from kaggle: https://www.kaggle.com/shayanfazeli/heartbeat
+or download the datasets from kaggle: https://www.kaggle.com/shayanfazeli/heartbeat, and create a new folder: `resources/data/ecg/` and put the .csv's there.
