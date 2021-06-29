@@ -55,7 +55,8 @@ This computes Inception Score, Frechet Inception Distance and downstream classif
 ### Inception Score
 For the IS you first need to train a classifier (seperate for MNIST & FashionMNIST, change in the `MLP_for_Inception.py` file) by running:
 > python eval/evaluator/MLP_for_Inception.py
-This trains a classifier (depending on the selected dataset) with test set accuracy of 98% or 91% accuracy, respectively for MNIST and Fashion-MNIST.
+This trains a classifier (depending on the selected dataset) with test set accuracy of 98% or 91% accuracy, respectively for MNIST and Fashion-MNIST.<br>
+Line 26 & 27 (`FASHION_MNIST_PATH` & `MNIST_PATH`) Should point to these classifiers if you want to compute the IS.
 
 
 
